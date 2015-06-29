@@ -35,7 +35,6 @@ $(window).ready(function () {
      * Initialize the medicine widgets and page layout
      */
     index: function() {
-      console.log('I am in the index');
       this.switchPerspective(require('./home/homeView'));
     },
 

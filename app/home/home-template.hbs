@@ -1,1 +1,7 @@
-<div id="hello-world">Hello world</div>
+{{#each this}}
+<div style="text-align: center;">
+  <h1>{{this.name}}</h1>
+  <h3>{{this.title}}</h3>
+  <h5>{{this.workplace}}</h5>
+</div>
+{{/each}}
