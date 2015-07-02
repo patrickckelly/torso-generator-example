@@ -1,6 +1,7 @@
 var Torso = require('torso'),
     $ = require('jquery');
 
+require('./mockdata');
 require('torso/node_modules/backbone').$ = $;
 
 // Expose some globals
@@ -51,7 +52,6 @@ $(window).ready(function () {
       this.current.attach($('.app'));
     }
   }))();
-
-  app.start();
+app.start();
 });
 
