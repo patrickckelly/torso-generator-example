@@ -1,28 +1,33 @@
-var Torso = require('torso'),
+var Torso = require('./webcore'),
     HomeModel = require('./homeModel'),
-    Backbone = require('torso/node_modules/backbone');
+    $ = require('jquery');
 
-HomeCollection = Torso.Collection.extend({
-  model: HomeModel,
-  url: "https://restful/fortune"
-});
-
+HomeCollection = require('./homeCollection');
 var collection = new HomeCollection();
-var rCollection;
-this.listenTo(collection, 'loading-done', function(){
-  console.log('Listen Worked');
-});
+var rCollection = collection.createPrivateCollection(1);
+
+
+
 collection.fetch();
 
-
-HomeElementView = Torso.View.extend({
-  template: require('./_homeModelView.hbs')
+rCollection.on('cache-load-complete', function(){
 });
+$.ajax({
+  url: "https://restful/fortune/ids"
+}).then(function(result){
+  rCollection.trackIds(result);
+  rCollection.fetch();
 
-HomeView = new Torso.ListView({
+});
+var HomeViewClass = Torso.Views.List.extend({
+  className: 'home-view-list'
+});
+var HomeView = new HomeViewClass({
   collection: rCollection,
   childModel: 'model',
-  childView: HomeElementView,
+  childView: require('./homeModelView'),
+  template: require('./_homeView.hbs'),
+  childrenContainer: 'home-spot'
 });
 
 module.exports = HomeView;

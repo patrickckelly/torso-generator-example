@@ -1,0 +1,3 @@
+IN SASS-BASE
+mvn release:prepare
+mvn release:perform

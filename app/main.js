@@ -1,8 +1,8 @@
-var Torso = require('torso'),
+var Torso = require('../node_modules/backbone-torso'),
     $ = require('jquery');
 
 require('./mockdata');
-require('torso/node_modules/backbone').$ = $;
+require('backbone').$ = $;
 
 // Expose some globals
 window.$ = $;
@@ -18,9 +18,14 @@ $(window).ready(function () {
   var app = new (Torso.Router.extend({
     current: null,
     routes: {
-      '': 'index'
+      '': 'index',
+      'donuts': 'donut',
+      'index': 'index'
     },
 
+    donut: function(){
+      this.switchPerspective(require('./donuts/donutsView'));
+    },
     /**
      * Stop the history if it's already started. Bind the routes, and start.
      * and start the history.
@@ -43,15 +48,17 @@ $(window).ready(function () {
      * Switches the current perspective to be the given perspective.
      */
     switchPerspective: function(nextPerspective) {
+      console.log('This.Current: ', this.current);
       if (this.current) {
         this.current.detach();
       }
-
       this.current = nextPerspective;
       this.current.render();
-      this.current.attach($('.app'));
+      //this.current.attach($('.app'));
+      $('.app').html('').append(this.current.$el);
     }
   }))();
-app.start();
+  app.start();
+  window.app = app;
 });
 
